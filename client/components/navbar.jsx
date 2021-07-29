@@ -5,10 +5,10 @@ export default class Navbar extends React.Component {
   render() {
     const { user, handleSignOut } = this.context;
     return (
-      <nav className="navbar navbar-dark bg-dark">
+      <nav className="navbar navbar-dark bg-forest">
         <div className="container">
           <a className="navbar-brand" href="#">
-            <i className="fas me-2" />
+            <i className="fas  me-2" />
             Home Automation
           </a>
           <div>
@@ -23,7 +23,7 @@ export default class Navbar extends React.Component {
                 <a href="#sign-in" className="btn btn-primary">
                   Sign In
                 </a>
-                <a href="#sign-up" className="btn btn-dark">
+                <a href="#sign-up" className="btn btn-primary">
                   Sign Up
                 </a>
               </>

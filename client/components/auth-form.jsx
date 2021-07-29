@@ -78,11 +78,11 @@ export default class AuthForm extends React.Component {
         </div>
         <div className="d-flex justify-content-between align-items-center">
           <small>
-            <a className="text-muted" href={alternateActionHref}>
+            <a className="text-black" href={alternateActionHref}>
               { alternatActionText }
             </a>
           </small>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-dark">
             { submitButtonText }
           </button>
         </div>

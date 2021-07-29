@@ -66,9 +66,6 @@ export default class App extends React.Component {
           <PageContainer>
             { this.renderPage() }
           </PageContainer>
-          <TestButton>
-
-          </TestButton>
         </>
       </AppContext.Provider>
     );
