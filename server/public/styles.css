@@ -1,0 +1,63 @@
+.bg-black {
+  background-color: #020204 !important;
+}
+
+.bg-forest {
+  background-color:  #204829 !important;
+}
+
+.bg-leaf {
+  background-color: #22b455 !important;
+}
+
+.bg-mint {
+  background-color: #80ce87 !important;
+}
+
+.bg-light {
+  background-color: #92e5a1 !important;
+}
+
+.text-black {
+  color: #020204 !important;
+}
+
+.text-forest {
+  color:  #204829 !important;
+}
+
+.text-leaf {
+  olor: #22b455 !important;
+}
+
+.text-mint {
+  color: #80ce87 !important;
+}
+
+.text-light {
+  color: #92e5a1 !important;
+}
+
+.btn-primary {
+  background-color: #80ce87;
+  border-color: #020204 ;
+}
+
+.btn-primary:hover {
+    background-color: #22b455;
+    border-color: #22b455;
+}
+
+.btn-dark {
+  background-color: #204829 ;
+  border-color: #020204 ;
+}
+
+.navbar-dark .navbar-brand {
+  color: #020204 !important;
+}
+
+body {
+  font-family: 'Courier Prime', Courier, monospace !important;
+  color: #020204 !important;
+}

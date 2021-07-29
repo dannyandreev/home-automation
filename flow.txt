@@ -1,0 +1,27 @@
+User can sign up.
+  	If the route.path is  not sign-in than display the "Create an account to get started!" welcome message
+	Once User inputs Username and Password and hits Submit handleSubmit is triggered
+	handleSubmit sends a POST request to the server with the username and password in the body
+		and we set the window.location.hash to sign-in
+	The server receives a post that triggers app.post('/api/auth/sign-up'...) path
+		It checks if both user and password are present
+		It uses argon2 to create a password hash and then sends result to the postgresql.
+		It receves a userID,username,createdAt resonse
+User can sign in.
+	If the route.path is sign-in than display the "Please sign in to coninue" welcome message
+	Once User inputs Username and Password and hits Submit handleSubmit is triggered
+	handleSubmit sends a POST request to the server with the username and password in the body
+	The server receives a post that triggers app.post('/api/auth/sign-up'...) path
+		It checks if both user and password are present
+		It uses argon2 to verify that this password matches the password hash saved for this username
+		Send back a token to client
+
+User can stay signed in (even if they refresh the page).
+	If page is refreshed or first opened client checkes if token exits inside componentyDidMount() and leaves state.isAuthorizing to true
+	token is placed in context
+	if there is token in localstate then the auth.jsx calls Redirect
+	if props.to specifies a redirect to location then we rerender the page with a specific user speicified by token following sign in server path
+
+User can sign out.
+	This sets the user: null
+	home.jsx checks if there is user and if not we follow a redirect path to sign-in.
