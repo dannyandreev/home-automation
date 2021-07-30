@@ -10,7 +10,7 @@ import { Chart } from 'react-charts'
 export default function makeGraph(){
     const series = React.useMemo(
       () => ({
-        type: "area"
+        type: "line"
       }),
       []
     );
@@ -21,6 +21,42 @@ export default function makeGraph(){
       ],
       []
     );
+
+    const UUIDtoName = {};
+    const dataSet = [];
+    fetch('/api/devices')
+      .then(response => response.json())
+      .then(data => {
+        for (const device of data){
+          UUIDtoName[`${device.UUID}`] = device.deviceName
+          dataSet.push({ UUID: device.UUID, deviceName: device.deviceName, dataType: 'Temperature', label: `${device.deviceName} Temperature`, dataums: [] })
+          dataSet.push({ UUID: device.UUID, deviceName: device.deviceName, dataType: 'Light', label: `${device.deviceName} Light`, dataums: [] })
+        }
+        console.log(dataSet)
+      })
+      .then(()=>{
+        fetch('/api/data')
+          .then(response => response.json())
+          .then(data => {
+
+            for (const datum of data) {
+              console.log(datum)
+              for(const series of dataSet){
+                if(series.UUID === datum.UUID && series.dataType === datum.sensorType){
+                  series.dataums.push({
+                    x: new Date(datum.deviceTimeStamp),
+                    y: datum.sensorValue
+                  })
+                }
+              }
+            }
+            console.log(dataSet)
+          });
+      })
+
+
+
+
     const data = React.useMemo(
       () => [
         {
@@ -116,6 +152,8 @@ export default function makeGraph(){
       ],
       []
     );
+
+    console.log(data)
     return (
       <div className="App">
         <div className="App bg-leaf" style={{ width: "500px", height: "500px" }}>

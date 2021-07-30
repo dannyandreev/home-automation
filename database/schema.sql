@@ -24,7 +24,6 @@ create table "public"."data" (
   "deviceTimeStamp"  timestamptz(6) not null default now(),
   "createdAt"        timestamptz(6) not null default now(),
   primary key ("key"),
-  unique ("key")
 );
 
 create table "public"."devices" (
