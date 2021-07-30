@@ -5,7 +5,7 @@ export default class Navbar extends React.Component {
   render() {
     const { user, handleSignOut } = this.context;
     return (
-      <nav className="navbar navbar-dark bg-forest">
+      <nav className="navbar navbar-dark bg-leaf">
         <div className="container">
           <a className="navbar-brand" href="#">
             <i className="fas  me-2" />
@@ -14,16 +14,16 @@ export default class Navbar extends React.Component {
           <div>
             { user !== null &&
               <button className="btn btn-dark" onClick={handleSignOut}>
-                Sign out
-                <i className="ms-2 fas fa-sign-out-alt" />
+                Sign Out
               </button>
             }
             { user === null &&
               <>
-                <a href="#sign-in" className="btn btn-primary">
+                <a href="#sign-in" className="btn btn-dark">
                   Sign In
                 </a>
-                <a href="#sign-up" className="btn btn-primary">
+                <i className="ms-2" />
+              <a href="#sign-up" className="btn btn-dark">
                   Sign Up
                 </a>
               </>

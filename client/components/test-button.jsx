@@ -6,9 +6,7 @@ import AppContext from '../lib/app-context';
 export default class TestButton extends React.Component {
   render() {
     return (
-      <Button variant="contained" color="primary">
-        Hello World
-      </Button>
+      <Button variant="contained" color="primary"></Button>
     );
   }
 }
