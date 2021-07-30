@@ -10,6 +10,7 @@ import makeGraph from './graph'
 
 function TabPanel(props) {
   const { children, value, index } = props;
+
   if(index===0){
     return (
       <div>
