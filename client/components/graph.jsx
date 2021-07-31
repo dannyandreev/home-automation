@@ -6,17 +6,10 @@ import React from 'react'
 import { Chart } from 'react-charts'
 
 
+
+
 export default function makeGraph(){
-    const series = {
-        type: "line"
-      }
-
-    const axes =[
-        { primary: true, position: "bottom", type: "time" },
-        { position: "left", type: "linear", stacked: true }
-      ]
-
-  const data = React.useMemo(
+  const tempData = React.useMemo(
     () => [
       {
         label: "Series 1",
@@ -112,59 +105,78 @@ export default function makeGraph(){
     []
   );
 
+    const series = React.useMemo(
+      () => ({
+        type: "line",
+        showPoints: false
+      }),
+      []
+    );
+
+    const axes = React.useMemo(
+      () => [
+        { primary: true, position: "bottom", type: "time" },
+        { position: "left", type: "linear"}
+      ],
+      []
+    );
+
     const UUIDtoName = {};
     const dataSet = [];
-    fetch('/api/devices')
-      .then(response => response.json())
-      .then(data => {
-        for (const device of data){
-          UUIDtoName[`${device.UUID}`] = device.deviceName
-          dataSet.push({ UUID: device.UUID, deviceName: device.deviceName, dataType: 'Temperature', label: `${device.deviceName} Temperature`, dataums: [] })
-          dataSet.push({ UUID: device.UUID, deviceName: device.deviceName, dataType: 'Light', label: `${device.deviceName} Light`, dataums: [] })
-        }
-        console.log(dataSet)
-      })
-      .then(()=>{
-        fetch('/api/data')
-          .then(response => response.json())
-          .then(data => {
 
-            for (const datum of data) {
-              console.log(datum)
-              for(const series of dataSet){
-                if(series.UUID === datum.UUID && series.dataType === datum.sensorType){
-                  series.dataums.push({
-                    x: new Date(datum.deviceTimeStamp),
-                    y: datum.sensorValue
-                  })
+  const [data, setData] = React.useState(null);
+
+  const dataPromise = React.useMemo(
+    () => {
+      return fetch('/api/devices')
+        .then(response => response.json())
+        .then(data => {
+          for (const device of data) {
+            UUIDtoName[`${device.UUID}`] = device.deviceName
+            dataSet.push({ UUID: device.UUID, deviceName: device.deviceName, dataType: 'Temperature', label: `${device.deviceName} Temperature`, datums: [] })
+            dataSet.push({ UUID: device.UUID, deviceName: device.deviceName, dataType: 'Light', label: `${device.deviceName} Light`, datums: [] })
+          }
+        })
+        .then(() => {
+          return fetch('/api/data')
+            .then(response => response.json())
+            .then(data => {
+              for (const datum of data) {
+                for (const series of dataSet) {
+                  if (series.UUID === datum.UUID && series.dataType === datum.sensorType) {
+                    series.datums.push({
+                      x: new Date(datum.deviceTimeStamp),
+                      y: parseInt(datum.sensorValue, 10)
+                    })
+                  }
                 }
               }
-            }
-            console.log(dataSet)
-          })
-          .then(()=>{
-            console.log(dataSet)
-            return (
-              <div className="App">
-                <div className="App bg-leaf" style={{ width: "500px", height: "500px" }}>
-                  <Chart data={data} series={series} axes={axes} tooltip />
-                </div>
-              </div>
-            );
-          });
-      })
+              for (const series of dataSet) {
+                delete series.dataType
+                delete series.UUID
+                delete series.deviceName
+                delete series.Temperature
+              }
 
+            })
+            .then(() => {
 
+              setData(dataSet)
+            });
+        })
+    }
+  )
 
+  console.log(data)
+  console.log(tempData)
+  console.log(series)
+  console.log(axes)
 
-
-
-    console.log(data)
-    return (
-      <div className="App">
-        <div className="App bg-leaf" style={{ width: "500px", height: "500px" }}>
-          <Chart data={data} series={series} axes={axes} tooltip />
-        </div>
+  return (
+    <div className="App bg-leaf p-3">
+      <div className="App bg-leaf" style={{ width: "500px", height: "500px" }}>
+        {data ? <Chart data={data} series={series} axes={axes} tooltip /> : <div>Loading...</div> }
       </div>
-    );
-  }
+    </div>
+  );
+}

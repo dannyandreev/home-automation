@@ -23,7 +23,7 @@ create table "public"."data" (
   "sensorValue"      numeric,
   "deviceTimeStamp"  timestamptz(6) not null default now(),
   "createdAt"        timestamptz(6) not null default now(),
-  primary key ("key"),
+  primary key ("key")
 );
 
 create table "public"."devices" (

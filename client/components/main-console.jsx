@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import AppContext from '../lib/app-context';
 import TestButton from './test-button';
-import makeGraph from './graph'
+import Graph from './graph'
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -15,7 +15,7 @@ function TabPanel(props) {
     return (
       <div>
         {
-          value === index ? makeGraph() : ''
+          value === index ? <Graph></Graph> : ''
         }
       </div>
     );
