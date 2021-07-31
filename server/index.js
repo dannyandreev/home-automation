@@ -103,7 +103,30 @@ app.get('/api/devices', (req, res, next) => {
     .catch(err => next(err));
 });
 
+//  http post :3000/api/data UUID=fa0c33ce-68ab-44ab-9ac8-16de4f47cd0a sensorType=Temperature sensorValue=30 deviceTimeStamp=''
+app.post('/api/data', (req, res, next) => {
 
+  const { UUID, sensorType, sensorValue } = req.body;
+
+  if (!UUID || !sensorType || !sensorValue) {
+    throw new ClientError(400, 'UUID, sensorType, and sensorValue are required fields');
+  }
+  const sql = `
+    insert into "data" ("UUID", "sensorType", "sensorValue")
+    values ($1, $2, $3)
+    returning *
+  `;
+  const params = [UUID, sensorType, sensorValue]
+  console.log(params)
+
+  db.query(sql, params)
+    .then( result => {
+      console.log(result.rows)
+      const [data] = result.rows;
+      res.status(201).json(data);
+    })
+    .catch(err => next(err));
+});
 
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
