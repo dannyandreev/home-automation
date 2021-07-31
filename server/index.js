@@ -77,6 +77,34 @@ app.post('/api/auth/sign-in', (req, res, next) => {
 
 app.use(errorMiddleware);
 
+app.get('/api/data', (req, res, next) => {
+  const sql = `
+        select * from data
+    `;
+
+  db.query(sql)
+    .then(result =>{
+      res.json(result.rows);
+      console.log(result)
+    })
+    .catch(err => next(err));
+});
+
+app.get('/api/devices', (req, res, next) => {
+  const sql = `
+        select * from devices
+    `;
+
+  db.query(sql)
+    .then(result => {
+      res.json(result.rows);
+      console.log(result)
+    })
+    .catch(err => next(err));
+});
+
+
+
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`express server listening on port ${process.env.PORT}`);
