@@ -106,6 +106,7 @@ app.post('/api/data', (req, res, next) => {
 
   const { UUID, sensorType, sensorValue } = req.body;
 
+  console.log(req.body)
   if (!UUID || !sensorType || !sensorValue) {
     throw new ClientError(400, 'UUID, sensorType, and sensorValue are required fields');
   }
