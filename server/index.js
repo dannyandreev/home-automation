@@ -85,7 +85,6 @@ app.get('/api/data', (req, res, next) => {
   db.query(sql)
     .then(result =>{
       res.json(result.rows);
-      console.log(result)
     })
     .catch(err => next(err));
 });
@@ -98,7 +97,6 @@ app.get('/api/devices', (req, res, next) => {
   db.query(sql)
     .then(result => {
       res.json(result.rows);
-      console.log(result)
     })
     .catch(err => next(err));
 });
@@ -108,6 +106,7 @@ app.post('/api/data', (req, res, next) => {
 
   const { UUID, sensorType, sensorValue } = req.body;
 
+  console.log(req.body)
   if (!UUID || !sensorType || !sensorValue) {
     throw new ClientError(400, 'UUID, sensorType, and sensorValue are required fields');
   }
@@ -117,11 +116,9 @@ app.post('/api/data', (req, res, next) => {
     returning *
   `;
   const params = [UUID, sensorType, sensorValue]
-  console.log(params)
 
   db.query(sql, params)
     .then( result => {
-      console.log(result.rows)
       const [data] = result.rows;
       res.status(201).json(data);
     })

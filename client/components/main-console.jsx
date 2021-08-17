@@ -48,7 +48,6 @@ export default class MainConsole extends React.Component {
   }
 
   handleChange(event, value) {
-    console.log(value)
     this.setState({value: value})
     return(value)
   }
